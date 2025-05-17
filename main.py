@@ -4,7 +4,7 @@ from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 import os
 
 
-# توکن دریافتی از BotFather را اینجا قرار دهید
+
 TOKEN = "7785542509:AAH7DXqt7ow6O0qaiUMn3xCWEbZHAfdV4_0"
 
 bot = telebot.TeleBot(TOKEN)
@@ -47,6 +47,7 @@ def handle_help(message):
                  /help : همین کصشرارو بهت میگم باز
                  /location : لوکیشن یه چیزی که دوس داری بکنی تو کونت رو بهت میدم
                  /photo : یه عکس قشنگ برات میفرستم
+                 /voice : برات ویس قشنگ میفرسم گل 
                  """ )
     
 @bot.message_handler(commands=['time'])
@@ -74,7 +75,31 @@ def send_photo(message):
             bot.send_photo(message.chat.id, photo, caption="بیا بخورش بیا")
     except FileNotFoundError:
         bot.reply_to(message,"عکس یافت نشد")
-# پاسخ به همه پیام‌های متنی
+
+# @bot.message_handler(commands=['voice'])
+# def send_voice(message):
+#     markup = InlineKeyboardMarkup()
+    
+#     # افزودن دکمه‌ها
+#     markup.row_width = 2  # تعداد دکمه در هر ردیف
+#     markup.add(
+#         InlineKeyboardButton("دلنواز", callback_data="option1"),
+#         InlineKeyboardButton("گوشنواز", callback_data="option2"),
+#         InlineKeyboardButton("گوشنواز", callback_data="option3")
+#     )
+
+#     bot.send_message(message.chat.id, "سلام حمال عزیز یکی از گزینه‌های زیر رو انتخاب کن:", reply_markup=markup)
+# @bot.callback_query_handler(func=lambda call: True)
+# def callback_handler(call):
+#       file_1 = 
+@bot.message_handler(content_types=['voice'])
+def get_voice_file_id(message):
+    file_id = message.voice.file_id
+    print("Voice file_id:", file_id)  # اینجا تو کنسول چاپ میشه
+    bot.reply_to(message, "ویس دریافت شد و file_id آن ذخیره شد.")
+   
+    
+    
 @bot.message_handler(content_types=['text'])
 def handle_text(message):
     if user_states.get(message.chat.id) == "awaiting_echo":
