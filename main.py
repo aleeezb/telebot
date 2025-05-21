@@ -12,28 +12,47 @@ bot = telebot.TeleBot(TOKEN)
 bot = telebot.TeleBot(TOKEN)
 user_states = {}
 
-# تعریف یک دستور: /start
 @bot.message_handler(commands=['start'])
 def handle_start(message):
-    # ایجاد موضوع کیبورد اینلاین
     markup = InlineKeyboardMarkup()
-    
-    # افزودن دکمه‌ها
-    markup.row_width = 2  # تعداد دکمه در هر ردیف
+    markup.row_width = 2
     markup.add(
-        InlineKeyboardButton("les", callback_data="option1"),
-        InlineKeyboardButton("femboy", callback_data="option2")
+        InlineKeyboardButton("les", callback_data="video_les"),
+        InlineKeyboardButton("femboy", callback_data="video_femboy")
     )
     markup.add(InlineKeyboardButton("وب‌سایت ما", url="https://pornhub.com"))
     bot.send_message(message.chat.id, "سلام! یکی از گزینه‌های زیر رو انتخاب کن:", reply_markup=markup)
 
+@bot.message_handler(commands=['voice'])
+def send_voice(message):
+    markup = InlineKeyboardMarkup()
+    markup.row_width = 2
+    markup.add(
+        InlineKeyboardButton("دلنواز", callback_data="voice_1"),
+        InlineKeyboardButton("پندآموز", callback_data="voice_2"),
+        InlineKeyboardButton("انگیزشی", callback_data="voice_3")
+    )
+    bot.send_message(message.chat.id, "🎧 یکی از ویس‌های زیر رو انتخاب کن:", reply_markup=markup)
+
 @bot.callback_query_handler(func=lambda call: True)
 def callback_handler(call):
-    if call.data == "option1":
-        bot.send_message(call.message.chat.id, "✅ سایت مخصوص گزینه 1:\nhttps://https://www.erome.com/search?q=lesbian+.com")
-        
-    elif call.data == "option2":
-        bot.send_message(call.message.chat.id, "✅ سایت مخصوص گزینه 2:\nhttps://www.erome.com/search?q=cute+femboy.com")
+    if call.data == "video_les":
+        bot.send_message(call.message.chat.id, "✅ سایت مخصوص گزینه 1:\nhttps://www.erome.com/search?q=lesbian")
+    elif call.data == "video_femboy":
+        bot.send_message(call.message.chat.id, "✅ سایت مخصوص گزینه 2:\nhttps://www.erome.com/search?q=cute+femboy")
+
+    elif call.data == "voice_1":
+        file_1 = "AwACAgQAAxkBAAIBuGgonZ_Q6tFc9oAPF_TWsxAPHvFAAALOAwACLuPwDQvscAZy4P4QNgQ"
+        bot.send_voice(call.message.chat.id, file_1)
+
+    elif call.data == "voice_2":
+        file_2 = "AwACAgQAAxkBAAIBpGgolW1wK41L2Q9QbafM4lV8ilJGAAKLBgACN_JRUo66AjGtLj48NgQ"
+        bot.send_voice(call.message.chat.id, file_2)
+
+    elif call.data == "voice_3":
+        file_3 = "AwACAgIAAxkBAAIBomgolTcta-aFX8N6Vo1h47tG2Jw5AAJccAACzqAwScthVT9oEV7CNgQ"
+        bot.send_voice(call.message.chat.id, file_3)
+
 
 
 
@@ -76,28 +95,16 @@ def send_photo(message):
     except FileNotFoundError:
         bot.reply_to(message,"عکس یافت نشد")
 
-# @bot.message_handler(commands=['voice'])
-# def send_voice(message):
-#     markup = InlineKeyboardMarkup()
-    
-#     # افزودن دکمه‌ها
-#     markup.row_width = 2  # تعداد دکمه در هر ردیف
-#     markup.add(
-#         InlineKeyboardButton("دلنواز", callback_data="option1"),
-#         InlineKeyboardButton("گوشنواز", callback_data="option2"),
-#         InlineKeyboardButton("گوشنواز", callback_data="option3")
-#     )
 
-#     bot.send_message(message.chat.id, "سلام حمال عزیز یکی از گزینه‌های زیر رو انتخاب کن:", reply_markup=markup)
-# @bot.callback_query_handler(func=lambda call: True)
-# def callback_handler(call):
-#       file_1 = 
+
+
+
+
 @bot.message_handler(content_types=['voice'])
 def get_voice_file_id(message):
     file_id = message.voice.file_id
     print("Voice file_id:", file_id)  # اینجا تو کنسول چاپ میشه
     bot.reply_to(message, "ویس دریافت شد و file_id آن ذخیره شد.")
-   
     
     
 @bot.message_handler(content_types=['text'])
@@ -111,3 +118,10 @@ def handle_text(message):
 # شروع به کار بات
 print("بات در حال اجراست...")
 bot.polling(none_stop=True)
+
+
+
+
+
+
+   
